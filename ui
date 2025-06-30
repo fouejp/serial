@@ -12,7 +12,7 @@ local Settings = {
 }
 
 
-local Menu = {}
+Menu = {}
 
 Menu.StoredControls = {}
 
@@ -1082,6 +1082,9 @@ function Menu.CheckBox(Tab_Name: string, Container_Name: string, Name: string, B
     CheckBox:Update(CheckBox.Value)
     Container:UpdateSize(20)
     table.insert(Items, CheckBox)
+    Menu:RegisterControl(Tab_Name, Container_Name, Name, function(val)
+    Items[#Items]:SetValue(val)
+end)
     return #Items
 end
 
@@ -3024,7 +3027,7 @@ function Menu:NameUpdate(waitTime, name, animatedText)
 end
 
 function Menu:SetValue(tab, section, name, value)
-    for _, ctrl in ipairs(self.StoredControls or {}) do
+    for _, ctrl in ipairs(self.StoredControls) do
         if ctrl.Tab == tab and ctrl.Section == section and ctrl.Name == name then
             if ctrl.SetValue then
                 ctrl.SetValue(value)
@@ -3037,9 +3040,10 @@ function Menu:Sync()
     local s = getgenv().Serial
     if not s then return end
 
-    for _, ctrl in ipairs(self.StoredControls or {}) do
+    for _, ctrl in ipairs(self.StoredControls) do
         local val = nil
 
+        -- Priority: nested tables (like Serial.ESP.Enabled), then flat ones (like Serial.Enabled)
         if s[ctrl.Section] and type(s[ctrl.Section]) == "table" and s[ctrl.Section][ctrl.Name] ~= nil then
             val = s[ctrl.Section][ctrl.Name]
         elseif s[ctrl.Name] ~= nil then
@@ -3049,6 +3053,31 @@ function Menu:Sync()
         if val ~= nil and ctrl.SetValue then
             ctrl.SetValue(val)
         end
+    end
+end
+
+-- ✅ Config save/load support
+local HttpService = game:GetService("HttpService")
+
+function Menu:SaveConfig(name)
+    local path = "Serial_" .. name .. ".json"
+    local data = {
+        Serial = getgenv().Serial
+    }
+
+    writefile(path, HttpService:JSONEncode(data))
+end
+
+function Menu:LoadConfig(name)
+    local path = "Serial_" .. name .. ".json"
+    if isfile(path) then
+        local data = HttpService:JSONDecode(readfile(path))
+        if data.Serial then
+            getgenv().Serial = data.Serial
+            if self.Sync then self:Sync() end
+        end
+    else
+        warn("[Serial UI] Config not found: " .. name)
     end
 end
 
