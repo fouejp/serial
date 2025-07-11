@@ -2909,3 +2909,5 @@ end
 local Flags = Library.Flags
 local Pointers = Library.Pointers
 local Utility = Library.Utility
+
+return Library
