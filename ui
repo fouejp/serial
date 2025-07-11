@@ -2904,3 +2904,8 @@ do
 		end
 	end
 end
+
+-- Local Variables
+local Flags = Library.Flags
+local Pointers = Library.Pointers
+local Utility = Library.Utility
