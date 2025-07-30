@@ -183,7 +183,7 @@ function library.new(library_title, cfg_location)
         BackgroundColor3 = Color3.fromRGB(15, 15, 15),
         BorderColor3 = Color3.fromRGB(78, 93, 234),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 60, 0, 300),
+        Size = UDim2.new(0, 320, 0, 280),
         Image = "http://www.roblox.com/asset/?id=7300333488",
         AutoButtonColor = false,
         Modal = true,
@@ -200,12 +200,12 @@ function library.new(library_title, cfg_location)
         AnchorPoint = Vector2.new(0.5, 0),
         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BackgroundTransparency = 1,
-        Position = UDim2.new(0.5, 0, 0, 4),
-        Size = UDim2.new(1, -24, 0, 24),
+        Position = UDim2.new(0.5, 0, 0, 0),
+        Size = UDim2.new(1, -22, 0, 30),
         Font = Enum.Font.Ubuntu,
         Text = library_title,
         TextColor3 = Color3.fromRGB(255, 255, 255),
-        TextSize = 14,
+        TextSize = 16,
         TextXAlignment = Enum.TextXAlignment.Left,
         RichText = true,
     }, ImageLabel)
@@ -214,8 +214,8 @@ function library.new(library_title, cfg_location)
         Name = "TabButtons",
         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BackgroundTransparency = 1,
-        Position = UDim2.new(0, 8, 0, 34),
-        Size = UDim2.new(0, 60, 0, 250),
+        Position = UDim2.new(0, 12, 0, 41),
+        Size = UDim2.new(0, 76, 0, 447),
     }, ImageLabel)
     
     local UIListLayout = library:create("UIListLayout", {
@@ -226,8 +226,8 @@ function library.new(library_title, cfg_location)
         Name = "Tabs",
         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BackgroundTransparency = 1,
-        Position = UDim2.new(0, 76, 0, 34),
-        Size = UDim2.new(1, -84, 0, 250),
+        Position = UDim2.new(0, 102, 0, 42),
+        Size = UDim2.new(0, 586, 0, 446),
     }, ImageLabel)
 
 	if syn then
@@ -253,7 +253,7 @@ end
         local TabButton = library:create("TextButton", {
             BackgroundColor3 = Color3.fromRGB(255, 255, 255),
             BackgroundTransparency = 1,
-            Size = UDim2.new(0, 60, 0, 60),
+            Size = UDim2.new(0, 76, 0, 90),
             Text = "",
         }, TabButtons)
 
@@ -261,7 +261,7 @@ end
             AnchorPoint = Vector2.new(0.5, 0.5),
             BackgroundTransparency = 1,
             Position = UDim2.new(0.5, 0, 0.5, 0),
-            Size = UDim2.new(0, 24, 0, 24),
+            Size = UDim2.new(0, 32, 0, 32),
             Image = tab_image,
             ImageColor3 = Color3.fromRGB(100, 100, 100),
         }, TabButton)
@@ -280,7 +280,7 @@ end
             Name = "TabSections",
             Parent = Tab,
             BackgroundTransparency = 1,
-            Size = UDim2.new(1, 0, 0, 24),
+            Size = UDim2.new(1, 0, 0, 28),
             ClipsDescendants = true,
         }, Tab)
 
@@ -292,8 +292,8 @@ end
         local TabFrames = library:create("Frame", {
             Name = "TabFrames",
             BackgroundTransparency = 1,
-            Position = UDim2.new(0, 0, 0, 26),
-            Size = UDim2.new(1, 0, 1, -26),
+            Position = UDim2.new(0, 0, 0, 29),
+            Size = UDim2.new(1, 0, 0, 418),
         }, Tab)
 
         if is_first_tab then
@@ -371,7 +371,7 @@ end
                 Name = "SectionDecoration",
                 BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                 BorderSizePixel = 0,
-                Position = UDim2.new(0, 0, 0, 24),
+                Position = UDim2.new(0, 0, 0, 27),
                 Size = UDim2.new(1, 0, 0, 1),
                 Visible = false,
             }, SectionButton)
@@ -391,20 +391,20 @@ end
                 Name = "Left",
                 BackgroundTransparency = 1,
                 Position = UDim2.new(0, 8, 0, 14),
-                Size = UDim2.new(0, 120, 0, 260),
+                Size = UDim2.new(0, 282, 0, 395),
             }, SectionFrame)
 
             local UIListLayout = library:create("UIListLayout", {
                 HorizontalAlignment = Enum.HorizontalAlignment.Center,
                 SortOrder = Enum.SortOrder.LayoutOrder,
-                Padding = UDim.new(0, 8),
+                Padding = UDim.new(0, 12),
             }, Left)
 
             local Right = library:create("Frame", {
                 Name = "Right",
                 BackgroundTransparency = 1,
-                Position = UDim2.new(0, 140, 0, 12),
-                Size = UDim2.new(0, 120, 0, 260),
+                Position = UDim2.new(0, 298, 0, 14),
+                Size = UDim2.new(0, 282, 0, 395),
             }, SectionFrame)
 
             local UIListLayout = library:create("UIListLayout", {
