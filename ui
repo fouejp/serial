@@ -1727,6 +1727,16 @@ function Compkiller:_AddLinkValue(Name , Default , GlobalBlock , LinkValues , re
 			end;
 		end)
 
+                 function Compkiller:_RefreshScroll(obj)
+                  local parent = obj.Parent
+                  if parent and parent:IsA("ScrollingFrame") then
+                local list = parent:FindFirstChildOfClass("UIListLayout")
+        if list then
+            parent.CanvasSize = UDim2.new(0, 0, 0, list.AbsoluteContentSize.Y + 25)
+        end
+    end
+end
+
 		return ColorPicker , ColorFrame;
 	elseif Name == "Keybind" then
 		local Keys = {
@@ -7278,10 +7288,6 @@ function Compkiller.new(Config : Window)
 			--Left.AutomaticCanvasSize = Enum.AutomaticSize.Y;
 			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
 
-			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-				Left.CanvasSize = UDim2.fromOffset(0,UIListLayout.AbsoluteContentSize.Y)
-			end)
-
 			UIListLayout.Parent = Left
 			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -7319,6 +7325,26 @@ function Compkiller.new(Config : Window)
 			UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 			UIListLayout_2.Padding = UDim.new(0, BASE_PADDING)
 			UIListLayout_2.VerticalFlex = Enum.UIFlexAlignment.None
+
+            ------------------------------------------------------------
+            -- 🔧 AUTO FIX SCROLLING FOR BOTH LEFT + RIGHT COLUMNS
+            ------------------------------------------------------------
+            local function UpdateCanvas(frame, layout)
+            task.wait() -- allow size to update
+            frame.CanvasSize = UDim2.new(
+            0, 0,
+            0, layout.AbsoluteContentSize.Y + 20
+             )
+end
+
+           UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+           UpdateCanvas(Left, UIListLayout)
+end)
+
+          UIListLayout_2:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+          UpdateCanvas(Right, UIListLayout_2)
+end)
+
 
 			WindowArgs:AddUnbind(UIListLayout_2 , Right);
 			WindowArgs:AddUnbind(UIListLayout , Left);
@@ -7455,11 +7481,6 @@ function Compkiller.new(Config : Window)
 			Left.TopImage = ""
 			--Left.AutomaticCanvasSize = Enum.AutomaticSize.Y;
 			Left.CanvasSize = UDim2.new(0, 0, 0, 0)
-
-
-			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-				Left.CanvasSize = UDim2.fromOffset(0,UIListLayout.AbsoluteContentSize.Y)
-			end);
 
 			UIListLayout.Parent = Left
 			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
