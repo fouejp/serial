@@ -7770,7 +7770,8 @@ function Compkiller.new(Config : Window)
 			Section.BorderSizePixel = 0
 			Section.Size = UDim2.new(1, 0, 0, 0)
 			Section.ZIndex = 9
-			Section.ClipsDescendants = true;
+			Section.AutomaticSize = Enum.AutomaticSize.Y
+            Section.ClipsDescendants = false
 
 			UICorner.CornerRadius = UDim.new(0, 6)
 			UICorner.Parent = Section
@@ -7872,70 +7873,6 @@ function Compkiller.new(Config : Window)
 
 			WindowArgs.THREADS[Section] = refresh;
 
-			local refreshScale = function()
-				local Childrens = Parent:GetChildren();
-				local Latest = 0;
-				local frameFound = 0;
-				local allscale = 0;
-
-				for i,v: Frame in next , Childrens do task.wait();
-					if v:IsA('Frame') then
-						if v ~= Section then
-							frameFound += 1;
-							allscale += v:GetAttribute('HEIGHTSCALE') or v.AbsoluteSize.Y;
-
-							if v.LayoutOrder < Section.LayoutOrder then
-								if WindowArgs.THREADS[v] then
-									v:SetAttribute('Height',nil);
-									WindowArgs.THREADS[v]();
-								end;
-
-								Latest += 1;
-							end;
-						end;
-					end;
-				end;
-
-				if frameFound == 0 then
-					Latest = math.huge;
-				end;
-
-				if Latest >= frameFound then
-					if allscale >= (Parent.AbsoluteSize.Y - 25) or UIListLayout.AbsoluteContentSize.Y >= (Parent.AbsoluteSize.Y - 25) then
-						Section:SetAttribute('Height',nil);
-					else
-						local parentScale = 0;
-
-						for i,v in next , Parent:GetChildren() do
-							if v:IsA('Frame') then
-								parentScale += v:GetAttribute('HEIGHTSCALE') + ParentLayout.Padding.Offset;
-							end;
-						end;
-
-						local remainingHeight = UIListLayout.AbsoluteContentSize.Y + (Parent.AbsoluteSize.Y - (parentScale));
-
-						Section:SetAttribute('Height',remainingHeight);
-					end;
-				else
-					Section:SetAttribute('Height',nil);
-				end;
-
-				refresh();
-			end;
-
-			Section.ChildAdded:Connect(function()
-				task.wait()
-				refreshScale();
-			end)
-
-			Section:SetAttribute('HEIGHTSCALE',UIListLayout.AbsoluteContentSize.Y);
-
-			UIListLayout:GetPropertyChangedSignal('AbsoluteContentSize'):Connect(function()
-				Section:SetAttribute('HEIGHTSCALE',math.max(UIListLayout.AbsoluteContentSize.Y , Section:GetAttribute('HEIGHTSCALE')));
-
-				refresh()
-			end);
-
 			TabOpenSignal:Connect(function(bool)
 				if bool then
 					Compkiller:_Animation(Section,TweenInfo.new(0.21),{
@@ -7979,7 +7916,6 @@ function Compkiller.new(Config : Window)
 
 				refresh();
 
-				refreshScale();
 			end);
 
 			return Compkiller:_LoadElement(Section , true , TabOpenSignal)
