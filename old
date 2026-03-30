@@ -1,6 +1,6 @@
 task.spawn(function()
     task.wait(1)
     game:GetService("Players").LocalPlayer:Kick(
-        "This Script Is Outdated, Please Join https://discord.gg/KC7HaRzHdF To Get Updated Script!"
+        "This Script Is Outdated, Please Join https://discord.gg/ngayAdqsG To Get Updated Script!"
     )
 end)
